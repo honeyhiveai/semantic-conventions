@@ -1,0 +1,77 @@
+groups:
+  - id: registry.honeyhive.session
+    type: attribute_group
+    display_name: HoneyHive Session Attributes
+    brief: >
+      Canonical honeyhive.* attributes that identify a session and surface
+      its top-level rollup metrics (cost, total tokens) in the HoneyHive
+      Session Summary panel. All attributes in this group are stable and
+      safe to reference in evaluator configuration, dashboards, and
+      saved filters.
+    attributes:
+      - id: honeyhive.session_id
+        type: string
+        stability: stable
+        brief: >
+          Session grouping identifier. Links every span emitted within one
+          end-to-end invocation; routes ingested events into the same
+          session tree.
+        examples:
+          - 'a1b2c3d4-5e6f-7890-abcd-ef0123456789'
+
+      - id: honeyhive.event_type
+        type:
+          members:
+            - id: session
+              value: 'session'
+              brief: 'Top-level session/conversation span'
+              stability: stable
+            - id: model
+              value: 'model'
+              brief: 'LLM completion span'
+              stability: stable
+            - id: tool
+              value: 'tool'
+              brief: 'Tool / function-call span'
+              stability: stable
+            - id: chain
+              value: 'chain'
+              brief: 'Generic chain or sub-step span'
+              stability: stable
+        stability: stable
+        brief: >
+          Event classification. Drives icon, color, and sideview affordances
+          (e.g. the "Open in Playground" button is shown only on `model`
+          spans).
+
+      - id: honeyhive.event_name
+        type: string
+        stability: stable
+        brief: >
+          Human-readable span title shown in the trace tree, sideview
+          header, and timeline.
+        examples:
+          - 'openai.chat.completion'
+          - 'retrieve_documents'
+
+      - id: honeyhive.metadata.cost
+        type: double
+        stability: stable
+        brief: >
+          Aggregate cost in USD attributed to this span. On session events
+          the ingestion normalizer rolls this up across all child spans and
+          renders it as the "Cost" stat in the Session Summary panel
+          (formatted as `$X.XXXX`).
+        examples:
+          - 0.0123
+
+      - id: honeyhive.metadata.total_tokens
+        type: int
+        stability: stable
+        brief: >
+          Aggregate token count for this span. On session events the
+          normalizer auto-computes from `input_tokens + output_tokens` when
+          not explicitly set, and renders the value as the "Total Tokens"
+          stat in the Session Summary panel.
+        examples:
+          - 1024

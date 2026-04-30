@@ -1,0 +1,11 @@
+name: honeyhive
+description: |
+  HoneyHive canonical semantic conventions — the wire-format attribute
+  names and stability tier that the HoneyHive ingestion pipeline accepts.
+
+  Source of truth for every honeyhive.* attribute name. Edits here are the
+  contract between SDK emitters, OTLP ingestion, and the public docs site.
+
+  See semconv/README.md for the engineer workflow and semconv/SPIKE.md for
+  the package layout and publishing decisions captured under HHAI-5103.
+schema_url: https://opentelemetry.io/schemas/honeyhive/0.1.0
