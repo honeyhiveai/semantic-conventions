@@ -1,7 +1,7 @@
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable -->
-{%- import 'stability.j2' as stability %}
-{%- import 'attribute_table.j2' as at %}
+{#- markdownlint-capture -#}
+{#- markdownlint-disable -#}
+{%- import 'stability.j2' as stability -%}
+{%- import 'attribute_table.j2' as at -%}
 ---
 layout: default
 title: {{ ctx.id | title_case | acronym }} Entities
@@ -50,5 +50,5 @@ namespace: {{ ctx.id | lower | kebab_case }}
 {%- endif %}
 
 {% endfor %}
-<!-- markdownlint-restore -->
+{#- markdownlint-restore -#}
 
