@@ -1,0 +1,88 @@
+# `metadata` bucket — OTLP traceability sub-keys. Source: PR #273
+# v2/tracing/semconv-reference.mdx → "`metadata` Bucket → OTLP traceability".
+# HHAI-5104 owns all six explicitly-stable sub-keys; the entire
+# OTLP-traceability sub-bucket is set automatically by the ingestion
+# pipeline on every OTLP-ingested event and carries the stable tier.
+# No development sub-keys exist in this sub-bucket as of PR #273.
+
+groups:
+  - id: registry.honeyhive.metadata.otlp
+    type: attribute_group
+    display_name: HoneyHive Metadata Bucket — OTLP Traceability
+    brief: >
+      OTLP traceability sub-keys of the `metadata` bucket. Set on every
+      OTLP-ingested event by the ingestion pipeline; preserved verbatim from
+      the source OTel span. Used by the tree-builder to reconstruct
+      parent-child relationships via span ID lineage instead of temporal
+      containment, and by support to correlate ingested events back to the
+      originating OTLP payload. All attributes in this group are stable.
+    attributes:
+      - id: honeyhive.metadata.trace_id
+        type: string
+        stability: stable
+        requirement_level: required
+        brief: >
+          Original OTel trace identifier (hex string). Preserved from the
+          source OTLP span on every OTLP-ingested event.
+        examples:
+          - '4bf92f3577b34da6a3ce929d0e0e4736'
+
+      - id: honeyhive.metadata.span_id
+        type: string
+        stability: stable
+        requirement_level: required
+        brief: >
+          Original OTel span identifier (hex string). Preserved from the
+          source OTLP span on every OTLP-ingested event.
+        examples:
+          - '00f067aa0ba902b7'
+
+      - id: honeyhive.metadata.parent_span_id
+        type: string
+        stability: stable
+        requirement_level: opt_in
+        brief: >
+          Original OTel parent span identifier (hex string). Used by the
+          tree-builder to reconstruct trace tree lineage before the root
+          `parent_id` field is resolved. Empty on root spans.
+        examples:
+          - '00f067aa0ba902b7'
+
+      - id: honeyhive.metadata.instrumentor
+        type: string
+        stability: stable
+        requirement_level: recommended
+        brief: >
+          Detected instrumentation library that emitted the OTLP span.
+          Drives the strategy-routing logic in the ingestion normalizer
+          (which set of source-attribute mappings to apply).
+        examples:
+          - 'openinference'
+          - 'traceloop'
+          - 'aws-strands'
+          - 'google-adk'
+          - 'standardgenai'
+
+      - id: honeyhive.metadata.has_otlp_lineage
+        type: boolean
+        stability: stable
+        requirement_level: required
+        brief: >
+          Always `true` on OTLP-ingested events. Signals the tree-builder
+          to use span ID lineage instead of temporal containment when
+          establishing parent-child relationships.
+        examples:
+          - true
+
+      - id: honeyhive.metadata.honeyhive_event_type
+        type: string
+        stability: stable
+        requirement_level: opt_in
+        brief: >
+          Preserved copy of the `honeyhive_event_type` source attribute
+          when present on the OTLP span (informational; does not override
+          the root `event_type` field).
+        examples:
+          - 'session'
+          - 'model'
+          - 'tool'
