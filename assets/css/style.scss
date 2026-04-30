@@ -1,0 +1,540 @@
+---
+# Front matter required so Jekyll runs SCSS through the converter and
+# emits assets/css/style.css. Brand colors are imported from _config.yml.
+---
+
+// ---------- design tokens ----------
+// Brand colors mirror the Mintlify config in honeyhiveai/honeyhive-ai-docs
+// so the registry site reads as a sibling of the product docs.
+$brand-primary: {{ site.brand.primary | default: "#b45f06" }};
+$brand-primary-dark: {{ site.brand.primary_dark | default: "#f88707" }};
+$bg: {{ site.brand.bg_light | default: "#ffffff" }};
+$ink: #16181d;
+$ink-soft: #4a5260;
+$ink-mute: #7c8597;
+$line: #e5e7eb;
+$line-soft: #f1f3f6;
+$surface: #fbfbfc;
+$surface-warm: #fdf7ef;
+$code-bg: #f6f7f9;
+
+$stable: #1f9d55;
+$stable-bg: #e6f7ed;
+$development: #1d6fb8;
+$development-bg: #e3effc;
+$rc: #8a4dd1;
+$rc-bg: #f0e7fb;
+$deprecated: #c0392b;
+$deprecated-bg: #fbe4e0;
+$mixed: #b8860b;
+$mixed-bg: #fbf2dc;
+
+$radius-sm: 4px;
+$radius: 8px;
+$radius-lg: 14px;
+
+$shadow-sm: 0 1px 2px rgba(15, 15, 15, 0.04);
+$shadow: 0 4px 16px rgba(15, 15, 15, 0.06);
+
+$content-width: 980px;
+$wide-content-width: 1180px;
+$mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+$sans: {{ site.brand.font_family | default: "Inter, ui-sans-serif, system-ui, sans-serif" }};
+
+// ---------- reset / base ----------
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: $bg;
+  color: $ink;
+  font-family: $sans;
+  font-size: 16px;
+  line-height: 1.6;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: $brand-primary;
+  text-decoration: none;
+  transition: color 120ms ease;
+
+  &:hover {
+    color: $brand-primary-dark;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
+  }
+}
+
+code,
+pre {
+  font-family: $mono;
+}
+
+code {
+  font-size: 0.875em;
+  background: $code-bg;
+  border: 1px solid $line;
+  border-radius: $radius-sm;
+  padding: 0.1em 0.4em;
+}
+
+pre {
+  background: $code-bg;
+  border: 1px solid $line;
+  border-radius: $radius;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+
+  code {
+    background: transparent;
+    border: 0;
+    padding: 0;
+  }
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid $line;
+  margin: 2.5rem 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+
+  &:focus {
+    left: 1rem;
+    top: 1rem;
+    background: $brand-primary;
+    color: #fff;
+    padding: 0.5rem 0.85rem;
+    border-radius: $radius;
+    z-index: 999;
+  }
+}
+
+// ---------- layout ----------
+.container {
+  width: 100%;
+  max-width: $wide-content-width;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.page {
+  padding: 2.5rem 0 4rem;
+
+  > .container {
+    max-width: $content-width;
+  }
+}
+
+// ---------- header ----------
+.site-header {
+  background: $bg;
+  border-bottom: 1px solid $line;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: saturate(160%) blur(8px);
+}
+
+.site-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-top: 0.85rem;
+  padding-bottom: 0.85rem;
+}
+
+.site-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: $ink;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+
+  &:hover {
+    color: $ink;
+    text-decoration: none;
+  }
+}
+
+.site-logo {
+  height: 26px;
+  width: auto;
+}
+
+.site-brand-divider {
+  color: $ink-mute;
+  font-weight: 400;
+}
+
+.site-brand-section {
+  font-size: 0.95rem;
+  color: $ink-soft;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 0.92rem;
+
+  a {
+    color: $ink-soft;
+    font-weight: 500;
+
+    &:hover {
+      color: $brand-primary;
+      text-decoration: none;
+    }
+  }
+
+  .site-nav-cta {
+    color: #fff;
+    background: $brand-primary;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    font-weight: 600;
+    box-shadow: $shadow-sm;
+
+    &:hover {
+      color: #fff;
+      background: $brand-primary-dark;
+    }
+  }
+}
+
+// ---------- typography ----------
+.page h1,
+.page h2,
+.page h3,
+.page h4 {
+  letter-spacing: -0.02em;
+  color: $ink;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.page h1 {
+  font-size: 2.4rem;
+  margin-top: 0;
+  line-height: 1.15;
+  font-weight: 700;
+
+  // Accent under the page title — matches the brand wash on honeyhive.ai.
+  &::after {
+    content: "";
+    display: block;
+    width: 56px;
+    height: 4px;
+    background: linear-gradient(90deg, $brand-primary, $brand-primary-dark);
+    border-radius: 999px;
+    margin-top: 0.85rem;
+  }
+}
+
+.page h2 {
+  font-size: 1.55rem;
+  font-weight: 650;
+  border-bottom: 1px solid $line-soft;
+  padding-bottom: 0.4rem;
+}
+
+.page h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.page h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: $ink-soft;
+}
+
+.page p,
+.page li {
+  color: $ink-soft;
+}
+
+.page p {
+  margin: 0 0 1rem;
+}
+
+.page strong {
+  color: $ink;
+}
+
+.page ul,
+.page ol {
+  padding-left: 1.4rem;
+  margin: 0 0 1.5rem;
+}
+
+.page li {
+  margin: 0.3rem 0;
+}
+
+.page blockquote {
+  margin: 1.5rem 0;
+  padding: 0.85rem 1.1rem;
+  border-left: 3px solid $brand-primary;
+  background: $surface-warm;
+  border-radius: 0 $radius $radius 0;
+  color: $ink;
+}
+
+// ---------- attribute table ----------
+// The vendored markdown templates emit a 5-column table:
+// Attribute | Type | Description | Examples | Stability
+//
+// We render it inside a horizontally scrollable wrapper and keep the
+// Stability column sticky on the right so readers always see the tier
+// even on narrow screens.
+
+.page table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.5rem 0 2rem;
+  background: $bg;
+  border: 1px solid $line;
+  border-radius: $radius;
+  overflow: hidden;
+  font-size: 0.93rem;
+  display: block;
+  overflow-x: auto;
+  // Sticky stability column needs `position: relative` on the table.
+  position: relative;
+}
+
+.page table thead th {
+  background: $surface;
+  color: $ink;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid $line;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.page table tbody td {
+  padding: 0.85rem 0.9rem;
+  border-bottom: 1px solid $line-soft;
+  vertical-align: top;
+  color: $ink-soft;
+}
+
+.page table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.page table tbody tr:hover td {
+  background: $surface;
+}
+
+// First column = the attribute name. Slightly emphasised.
+.page table tbody td:first-child {
+  font-family: $mono;
+  font-size: 0.9em;
+  color: $ink;
+  white-space: nowrap;
+
+  a {
+    color: $ink;
+
+    &:hover {
+      color: $brand-primary;
+      text-decoration: none;
+    }
+  }
+}
+
+// Stability column = last column. Pin it to the right of the scroll
+// container so the tier is always visible.
+.page table thead th:last-child,
+.page table tbody td:last-child {
+  position: sticky;
+  right: 0;
+  background: $bg;
+  border-left: 1px solid $line;
+  text-align: center;
+  white-space: nowrap;
+  // Ensure sticky cell paints over scrolled rows.
+  z-index: 1;
+}
+
+.page table thead th:last-child {
+  background: $surface;
+}
+
+.page table tbody tr:hover td:last-child {
+  background: $surface;
+}
+
+// Replace the upstream shields.io stability img with a styled badge.
+// The markdown template produces:
+//   ![Stable](https://img.shields.io/badge/-stable-lightgreen)
+// We hide the actual img and inject a styled span via :after on the
+// wrapping td.
+.page table td:last-child img {
+  // Keep the image as a fallback — squeeze it visually so it reads as
+  // a tag, while still being legible if CSS fails.
+  height: 22px;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
+// Stability column for enum value tables (3 columns):
+// Value | Description | Stability
+.page table.enum-values td:last-child img,
+.page table tbody td:last-child img {
+  filter: saturate(1.2);
+}
+
+// ---------- stability legend ----------
+.stability-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: -0.5rem 0 2rem;
+  font-size: 0.86rem;
+  color: $ink-soft;
+}
+
+.stability-legend .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.stability-legend .badge.stable {
+  background: $stable-bg;
+  color: $stable;
+  border-color: rgba(31, 157, 85, 0.25);
+}
+
+.stability-legend .badge.development {
+  background: $development-bg;
+  color: $development;
+  border-color: rgba(29, 111, 184, 0.25);
+}
+
+.stability-legend .badge.deprecated {
+  background: $deprecated-bg;
+  color: $deprecated;
+  border-color: rgba(192, 57, 43, 0.25);
+}
+
+// ---------- source-mapping section ----------
+// HHAI-5105 will emit a per-attribute "where this lands in the product"
+// section keyed off the annotations.source_mapping field. The template
+// (when added) should wrap that section in a div with class
+// `source-mapping`. Style it as a callout so readers understand it's a
+// product-side mapping, distinct from the wire-level definition.
+.page .source-mapping {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  background: $surface-warm;
+  border: 1px solid rgba(180, 95, 6, 0.18);
+  border-left: 3px solid $brand-primary;
+  border-radius: $radius;
+
+  h3,
+  h4 {
+    margin-top: 0;
+    color: $brand-primary-dark;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+  }
+}
+
+// ---------- footer ----------
+.site-footer {
+  border-top: 1px solid $line;
+  background: $surface;
+  color: $ink-mute;
+  font-size: 0.85rem;
+  padding: 1.75rem 0 2.25rem;
+  margin-top: 4rem;
+}
+
+.site-footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+}
+
+.site-footer code {
+  font-size: 0.8em;
+  background: $bg;
+}
+
+.site-footer a {
+  color: $ink-soft;
+
+  &:hover {
+    color: $brand-primary;
+  }
+}
+
+// ---------- responsive ----------
+@media (max-width: 720px) {
+  .site-header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .site-brand-section {
+    display: none;
+  }
+
+  .page h1 {
+    font-size: 1.9rem;
+  }
+
+  // On narrow screens, drop the sticky stability column — horizontal
+  // scroll is awkward when the viewport is already small.
+  .page table thead th:last-child,
+  .page table tbody td:last-child {
+    position: static;
+    border-left: 0;
+  }
+}

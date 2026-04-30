@@ -1,5 +1,9 @@
 {% import 'stability.j2' as stability %}
-{% macro filter(member) %}{% if (member.deprecated is none or member.deprecated == "") %}{{ "True" }}{% else %}{{ "False" }}{% endif %}{% endmacro %}
+{# Patched HHAI-5106: include any member whose `deprecated` field is unset. The
+   upstream filter used `member.deprecated is none`, which evaluates to false in
+   MiniJinja when the field is simply absent (vs explicitly null). For our
+   registry, where deprecated members are the exception, default to including. #}
+{% macro filter(member) %}{% if member.deprecated is not defined or member.deprecated is none or member.deprecated == "" %}{{ "True" }}{% else %}{{ "False" }}{% endif %}{% endmacro %}
 {% macro table(enum, notes) %}
 ---
 
