@@ -1,0 +1,36 @@
+# HoneyHive metadata.* sub-keys for model finish reasons. The stable
+# scalar `metadata.finish_reason` and the stable array
+# `metadata.finish_reasons` are owned by HHAI-5104. This file carries
+# only the development-tier OpenInference compatibility alias.
+groups:
+  - id: registry.honeyhive.metadata.finish_reasons
+    type: attribute_group
+    display_name: HoneyHive Finish Reason Aliases (development)
+    brief: >
+      Development-tier finish-reason alias attributes. Reference
+      `metadata.finish_reason` / `metadata.finish_reasons` (stable, owned
+      by HHAI-5104) in evaluators and saved filters; this attribute is for
+      backwards compatibility only.
+    attributes:
+      - id: honeyhive.metadata.response_finish_reasons
+        type: string[]
+        stability: development
+        requirement_level: opt_in
+        brief: >
+          Array of model finish reasons set by the OpenInference ingestion
+          strategy alongside `metadata.finish_reasons` for backwards
+          compatibility with older OpenInference versions that emitted the
+          attribute under a `response_*` prefix. Both keys are stored when
+          the source attribute is present.
+        examples:
+          - ['stop']
+          - ['length', 'tool_calls']
+        note: >
+          Prefer `metadata.finish_reasons` (stable) for new code paths.
+          This alias may be removed in a future minor release once
+          OpenInference instrumentation has aged out.
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: gen_ai.response.finish_reasons
+            traceloop: null

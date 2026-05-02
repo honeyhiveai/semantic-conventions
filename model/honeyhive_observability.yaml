@@ -1,0 +1,70 @@
+# HoneyHive metadata.* development-tier observability sub-keys —
+# tool-call status, messaging-system destination, and HTTP-tracing
+# suppression flag. These cover edge concerns that don't fit cleanly
+# under identity, response context, or token counts.
+groups:
+  - id: registry.honeyhive.metadata.observability
+    type: attribute_group
+    display_name: HoneyHive Observability Edge Attributes
+    brief: >
+      Development-tier metadata.* attributes for tool execution status,
+      messaging-system context, and ingestion-time HTTP-span
+      suppression. Render in the Metadata sideview section.
+    attributes:
+      - id: honeyhive.metadata.tool_status
+        type: string
+        stability: development
+        requirement_level: opt_in
+        brief: 'Tool execution status string set by tool/agent instrumentations.'
+        examples:
+          - 'success'
+          - 'error'
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.tool.status
+            openinference: gen_ai.tool.status
+            traceloop: gen_ai.tool.status
+
+      - id: honeyhive.metadata.messaging_destination
+        type: string
+        stability: development
+        requirement_level: opt_in
+        brief: >
+          Messaging-system destination topic or queue, set on spans
+          emitted by messaging-aware instrumentations (e.g., Semantic
+          Kernel agent runtime). Mirrors `config.destination` (stable).
+        examples:
+          - 'Writer_dff60b366ebe4fe4b2312019d5ae816c.(default)-A'
+          - 'agent-inbox'
+        note: >
+          The Traceloop strategy splits the source attribute across two
+          buckets: `config.destination` for runtime configuration and
+          `metadata.messaging_destination` for the operational record.
+        annotations:
+          source_mapping:
+            otel_genai: messaging.destination.name
+            openinference: null
+            traceloop: messaging.destination.name
+
+      - id: honeyhive.metadata.disable_http_tracing
+        type: boolean
+        stability: development
+        requirement_level: opt_in
+        brief: >
+          When true, the HoneyHive ingestion pipeline suppresses HTTP
+          spans emitted by the same trace. Set by the SDK on the root
+          span when the application opts out of low-level HTTP tracing
+          to reduce noise.
+        examples:
+          - true
+          - false
+        note: >
+          Default behavior in the HoneyHive Python SDK is to suppress
+          HTTP spans (`disable_http_tracing=True`). Set this attribute
+          explicitly only when overriding the SDK default, or when
+          emitting via REST/OTLP without going through the SDK.
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null

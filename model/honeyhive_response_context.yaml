@@ -1,0 +1,100 @@
+# HoneyHive metadata.* sub-keys carrying provider response context.
+# These document the API call that produced the span — response
+# identifier, resolved response model, API base, OpenAI system
+# fingerprint, and HTTP status code. All development tier.
+groups:
+  - id: registry.honeyhive.metadata.response_context
+    type: attribute_group
+    display_name: HoneyHive Response Context Attributes
+    brief: >
+      Development-tier metadata.* attributes describing the underlying
+      provider API response. Useful for replay, debugging, and provider
+      diagnostics. Render in the Metadata sideview section.
+    attributes:
+      - id: honeyhive.metadata.response_id
+        type: string
+        stability: development
+        requirement_level: opt_in
+        brief: 'Provider response identifier (e.g., OpenAI `response.id`, Anthropic message id).'
+        examples:
+          - 'chatcmpl-9abc123'
+          - 'msg_01a2b3c4d5'
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.response.id
+            openinference: gen_ai.response.id
+            traceloop: gen_ai.response.id
+
+      - id: honeyhive.metadata.response_model
+        type: string
+        stability: development
+        requirement_level: opt_in
+        brief: >
+          Resolved model name returned by the provider API. May differ
+          from the request model (`config.model`) when the provider
+          aliases or upgrades the requested model.
+        examples:
+          - 'gpt-4o-2024-08-06'
+          - 'claude-3-5-sonnet-20241022'
+        note: >
+          `metadata.model_name` (stable, HHAI-5104) is the resolved model
+          name shown in the UI; the normalizer prefers `response_model`
+          when available and falls back to `config.model` otherwise. Use
+          `metadata.response_model` directly when you need the exact API
+          response model regardless of fallback.
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.response.model
+            openinference: gen_ai.response.model
+            traceloop: gen_ai.response.model
+
+      - id: honeyhive.metadata.openai_api_base
+        type: string
+        stability: development
+        requirement_level: opt_in
+        brief: >
+          OpenAI-compatible API base URL the request was issued against.
+          Useful when traffic flows through a proxy, gateway, or
+          self-hosted OpenAI-compatible endpoint.
+        examples:
+          - 'https://api.openai.com/v1'
+          - 'https://my-llm-gateway.internal/v1'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: openai.api_base
+            traceloop: null
+
+      - id: honeyhive.metadata.openai_system_fingerprint
+        type: string
+        stability: development
+        requirement_level: opt_in
+        brief: >
+          OpenAI system fingerprint from the response, identifying the
+          backend serving configuration that produced the completion.
+        examples:
+          - 'fp_abc123def4'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: openai.system_fingerprint
+            traceloop: null
+
+      - id: honeyhive.metadata.status_code
+        type: int
+        stability: development
+        requirement_level: opt_in
+        brief: 'HTTP status code returned by the underlying provider API call.'
+        examples:
+          - 200
+          - 429
+          - 500
+        note: >
+          Distinct from the root `error` field. `status_code` records the
+          transport-layer response; `error` records the SDK-level
+          exception (or null on success).
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: http.status_code
+            traceloop: http.status_code

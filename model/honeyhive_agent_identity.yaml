@@ -1,0 +1,231 @@
+# HoneyHive metadata.* development-tier sub-keys covering agent and
+# model identity, span classification, and informational copies of root
+# event fields. These are populated by the ingestion normalizer from
+# OpenInference, OTel GenAI, and Traceloop source attributes.
+groups:
+  - id: registry.honeyhive.metadata.identity
+    type: attribute_group
+    display_name: HoneyHive Agent and Model Identity Attributes (development)
+    brief: >
+      Development-tier metadata.* attributes that classify the span and
+      describe the agent/model that produced it. Stable identity
+      attributes (`metadata.agent_name`, `metadata.agent_id`,
+      `metadata.tool_name`, `metadata.model_name`) live in HHAI-5104 owned
+      files; this group covers the development-tier complements.
+    attributes:
+      - id: honeyhive.metadata.agent_description
+        type: string
+        stability: development
+        requirement_level: opt_in
+        brief: 'Free-text description of the agent that produced the span.'
+        examples:
+          - 'A helpful research assistant that can analyze information and provide insights'
+          - 'An agent that provides assistance with ability to use tools.'
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.agent.description
+            openinference: gen_ai.agent.description
+            traceloop: gen_ai.agent.description
+
+      - id: honeyhive.metadata.llm.model_name
+        type: string
+        stability: development
+        requirement_level: opt_in
+        brief: >
+          Legacy dotted alias for the resolved model name, set by older
+          OpenInference instrumentation alongside `metadata.model_name`.
+          Both keys are stored when the source attribute is present.
+        examples:
+          - 'gpt-4o-mini'
+          - 'claude-3-5-sonnet-20241022'
+        note: >
+          Prefer `metadata.model_name` (stable, HHAI-5104) for new code.
+          This alias persists so historical events instrumented with
+          older OpenInference versions remain queryable by the same key
+          they were written with.
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: llm.model_name
+            traceloop: llm.model_name
+
+      - id: honeyhive.metadata.system
+        type: string
+        stability: development
+        requirement_level: opt_in
+        brief: >
+          Provider system string mirroring `config.provider` (stable);
+          set by the normalizer from `gen_ai.system`.
+        examples:
+          - 'openai'
+          - 'anthropic'
+          - 'bedrock'
+        note: >
+          `metadata.system` and `config.provider` are populated from
+          different source attributes. `gen_ai.system` (all three
+          ecosystems) flows to `metadata.system`. `gen_ai.provider.name`
+          (OTel v1.37+) and `llm.provider` (OpenInference, Traceloop)
+          flow to `config.provider`.
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.system
+            openinference: gen_ai.system
+            traceloop: gen_ai.system
+
+      - id: honeyhive.metadata.span_kind
+        type:
+          members:
+            - id: llm
+              value: 'LLM'
+              brief: 'LLM completion span'
+              stability: development
+            - id: agent
+              value: 'AGENT'
+              brief: 'Agent step span'
+              stability: development
+            - id: tool
+              value: 'TOOL'
+              brief: 'Tool / function-call span'
+              stability: development
+            - id: chain
+              value: 'CHAIN'
+              brief: 'Chain or workflow span'
+              stability: development
+            - id: retriever
+              value: 'RETRIEVER'
+              brief: 'Retrieval span'
+              stability: development
+            - id: embedding
+              value: 'EMBEDDING'
+              brief: 'Embedding span'
+              stability: development
+            - id: workflow
+              value: 'WORKFLOW'
+              brief: 'Traceloop workflow span'
+              stability: development
+            - id: task
+              value: 'TASK'
+              brief: 'Traceloop task span'
+              stability: development
+        stability: development
+        requirement_level: opt_in
+        brief: >
+          Instrumentor span classification, normalized from
+          `openinference.span.kind`, `traceloop.span.kind`, and (in OTel
+          v1.37+) `gen_ai.agent.type`. Used as a fallback signal when
+          mapping a span to the HoneyHive root `event_type`.
+        note: >
+          Values are stored in the casing emitted by the source
+          instrumentor (OpenInference uppercases `LLM`/`TOOL`/`AGENT`;
+          Traceloop lowercases `llm`/`tool`/`agent`). The enum captures
+          the OpenInference casing as canonical members; extra string
+          values are accepted.
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.agent.type
+            otel_genai_min_version: '1.37'
+            openinference: openinference.span.kind
+            traceloop: traceloop.span.kind
+
+      - id: honeyhive.metadata.operation_name
+        type: string
+        stability: development
+        requirement_level: opt_in
+        brief: 'GenAI operation name (`chat`, `completion`, `embedding`, `execute_tool`, …).'
+        examples:
+          - 'chat'
+          - 'execute_tool'
+          - 'embedding'
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.operation.name
+            openinference: gen_ai.operation.name
+            traceloop: gen_ai.operation.name
+
+      - id: honeyhive.metadata.conversation_id
+        type: string
+        stability: development
+        requirement_level: opt_in
+        brief: >
+          Provider-side conversation identifier, normalized from
+          `gen_ai.conversation.id` (OTel) or `session.id` (OpenInference).
+        examples:
+          - 'conv-7f3a9c'
+        note: >
+          Does not override the HoneyHive root `session_id` field.
+          `metadata.conversation_id` records the upstream concept; root
+          `session_id` is the HoneyHive grouping key.
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.conversation.id
+            openinference: session.id
+            traceloop: null
+
+      - id: honeyhive.metadata.request_type
+        type: string
+        stability: development
+        requirement_level: opt_in
+        brief: 'LLM request type (`chat`, `completion`, `embedding`, …).'
+        examples:
+          - 'chat'
+          - 'completion'
+          - 'embedding'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: llm.request.type
+            traceloop: llm.request.type
+
+      - id: honeyhive.metadata.event_id
+        type: string
+        stability: development
+        requirement_level: opt_in
+        brief: >
+          Internal copy of an upstream event identifier — typically the
+          MCP/tool-call ID or a Google ADK event ID — set into metadata
+          alongside the root `event_id`.
+        examples:
+          - 'tool_call_a1b2c3'
+        note: >
+          Informational only. Does not override the root `event_id` field
+          used to key the event in storage.
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: tool_call.id
+            traceloop: null
+
+      - id: honeyhive.metadata.event_type
+        type: string
+        stability: development
+        requirement_level: opt_in
+        brief: >
+          Informational copy of the event type label set by the
+          ingestion normalizer alongside the root `event_type`. Does not
+          override the root field.
+        examples:
+          - 'model'
+          - 'tool'
+          - 'agent'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: openinference.event.type
+            traceloop: null
+
+      - id: honeyhive.metadata.event_name
+        type: string
+        stability: development
+        requirement_level: opt_in
+        brief: >
+          Informational copy of the event name label set by the
+          ingestion normalizer alongside the root `event_name`. Does not
+          override the root field.
+        examples:
+          - 'openai.chat.completion'
+          - 'retrieve_documents'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: openinference.event.name
+            traceloop: null
