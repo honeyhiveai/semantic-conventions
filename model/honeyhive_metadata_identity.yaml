@@ -1,0 +1,75 @@
+# `metadata` bucket — agent and model identity sub-keys. Source: PR #273
+# v2/tracing/semconv-reference.mdx → "`metadata` Bucket → Agent and model
+# identity". HHAI-5104 owns the five explicitly-stable sub-keys.
+# HHAI-5105 will add the development sub-keys (agent_description,
+# llm.model_name, system, span_kind, operation_name, conversation_id,
+# request_type, event_id, event_type, event_name) into this same file.
+
+groups:
+  - id: registry.honeyhive.metadata.identity
+    type: attribute_group
+    display_name: HoneyHive Metadata Bucket — Identity Attributes
+    brief: >
+      Agent and model identity sub-keys of the `metadata` bucket. Drive the
+      Trajectory view category labels and the resolved-model display in the
+      sideview. All attributes in this group are stable.
+    attributes:
+      - id: honeyhive.metadata.agent_name
+        type: string
+        stability: stable
+        requirement_level: recommended
+        brief: >
+          Agent name. Read by the Trajectory view as the primary per-row
+          category label (first non-empty wins, falling back to `tool_name`,
+          `config.model`, then `event_name`).
+        examples:
+          - 'planning_agent'
+          - 'router'
+
+      - id: honeyhive.metadata.agent_id
+        type: string
+        stability: stable
+        requirement_level: recommended
+        brief: >
+          Agent identifier. Mapped from `gen_ai.agent.id` across OTel GenAI,
+          OpenInference, and Traceloop.
+        examples:
+          - 'agent-7c1f9d34'
+
+      - id: honeyhive.metadata.tool_name
+        type: string
+        stability: stable
+        requirement_level: recommended
+        brief: >
+          Tool name. Read by the Trajectory view as a category label fallback
+          after `agent_name`. Mapped from `gen_ai.tool.name` across OTel
+          GenAI, OpenInference, and Traceloop.
+        examples:
+          - 'web_search'
+          - 'sql_query_tool'
+
+      - id: honeyhive.metadata.model_name
+        type: string
+        stability: stable
+        requirement_level: recommended
+        brief: >
+          Resolved model name (response model when available, otherwise
+          request model). The normalizer falls back to `config.model` when
+          no response model is reported. Use `metadata.response_model` for
+          the exact model returned by the API.
+        examples:
+          - 'gpt-4o-2024-08-06'
+          - 'claude-3-5-sonnet-20241022'
+
+      - id: honeyhive.metadata.provider
+        type: string
+        stability: stable
+        requirement_level: recommended
+        brief: >
+          Provider name (mirrors `config.provider`). Set from the source
+          `gen_ai.provider.name` (OTel v1.37+) or `llm.provider`
+          (OpenInference, Traceloop). Distinct from `metadata.system`,
+          which mirrors `gen_ai.system`.
+        examples:
+          - 'openai'
+          - 'anthropic'
