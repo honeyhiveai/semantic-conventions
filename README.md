@@ -7,8 +7,8 @@ for:
 - the wire-format attribute names emitted by HoneyHive SDKs / OTLP
 - the stability tier (stable vs development) of every attribute
 - the public documentation site at
-  `https://honeyhiveai.github.io/semantic-conventions/` (deploys on
-  push to `main` once HHAI-5108 lands the Pages workflow)
+  [honeyhiveai.github.io/semantic-conventions](https://honeyhiveai.github.io/semantic-conventions/),
+  redeployed on every push to `main` that touches the registry
 
 The model files in `model/` are validated and rendered by
 [weaver](https://github.com/open-telemetry/weaver) — the
@@ -92,6 +92,31 @@ honeyhiveai/semantic-conventions/
 HHAI-5106 will fork these into HoneyHive-specific templates if/when we
 need to diverge from the OTel rendering style; until then we benefit
 from upstream improvements for free.
+
+## Deploy
+
+The site at
+[honeyhiveai.github.io/semantic-conventions](https://honeyhiveai.github.io/semantic-conventions/)
+is published by `.github/workflows/build-and-deploy-pages.yml`. The
+workflow:
+
+1. Validates the registry with `make check` — schema errors fail the build.
+2. Renders `dist/` with `make build`.
+3. Uploads `dist/` as a Pages artifact and deploys it via
+   `actions/deploy-pages@v4`.
+
+Triggers:
+
+- `push` to `main` when `model/**`, `templates/**`, `Makefile`, or
+  `install.sh` change.
+- `workflow_dispatch` with an optional `dry_run` boolean — when true,
+  the artifact is built and uploaded but the deploy step is skipped, so
+  you can inspect a candidate build without publishing.
+
+To add or change an attribute, edit the relevant `model/*.yaml`, run
+`make check` locally, and open a PR. Once it merges to `main` the
+workflow republishes the site automatically — there is no separate
+release step.
 
 ## Out of scope here
 
