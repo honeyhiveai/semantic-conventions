@@ -27,6 +27,11 @@ groups:
           tree, timeline, graph, and trajectory views.
         examples:
           - 'a1b2c3d4-5e6f-7890-abcd-ef0123456789'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.event_type
         type:
@@ -53,6 +58,11 @@ groups:
           Event classification. Drives icon, color coding, and available
           sideview affordances. Trajectory view filters out `session` (and
           legacy `conversation`) values when grouping non-session events.
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.event_name
         type: string
@@ -66,6 +76,11 @@ groups:
           - 'openai.chat.completion'
           - 'retrieve_documents'
           - 'agent.plan_step'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.error
         type: string
@@ -79,6 +94,11 @@ groups:
         examples:
           - 'Connection timed out after 30s'
           - 'Tool input failed schema validation: missing field "user_id"'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.parent_id
         type: string
@@ -90,6 +110,11 @@ groups:
           between sibling spans in the sideview).
         examples:
           - 'a1b2c3d4-5e6f-7890-abcd-ef0123456789'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.start_time
         type: int
@@ -103,6 +128,11 @@ groups:
           step sequence.
         examples:
           - 1714492800123
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.duration
         type: double
@@ -115,3 +145,8 @@ groups:
           not set explicitly.
         examples:
           - 1234.5
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null

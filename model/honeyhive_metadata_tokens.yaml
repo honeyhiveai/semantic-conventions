@@ -29,6 +29,11 @@ groups:
           present.
         examples:
           - 512
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.usage.prompt_tokens
+            openinference: llm.token_count.prompt
+            traceloop: llm.token_count.prompt
 
       - id: honeyhive.metadata.input_tokens
         type: int
@@ -41,6 +46,11 @@ groups:
           are present.
         examples:
           - 512
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.usage.input_tokens
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.metadata.completion_tokens
         type: int
@@ -53,6 +63,11 @@ groups:
           when both source attributes are present.
         examples:
           - 256
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.usage.completion_tokens
+            openinference: llm.token_count.completion
+            traceloop: llm.token_count.completion
 
       - id: honeyhive.metadata.output_tokens
         type: int
@@ -65,6 +80,11 @@ groups:
           when both source attributes are present.
         examples:
           - 256
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.usage.output_tokens
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.metadata.total_tokens
         type: int
@@ -77,3 +97,8 @@ groups:
           "Total Tokens" stat in Session Summary.
         examples:
           - 768
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: llm.token_count.total
+            traceloop: llm.usage.total_tokens

@@ -32,3 +32,8 @@ groups:
           or `function_call`. Stored as JSON when transported via OTLP.
         examples:
           - '[{"role":"user","content":"Hello"},{"role":"assistant","content":"Hi there!"}]'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null

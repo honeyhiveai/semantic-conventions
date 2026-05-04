@@ -27,6 +27,11 @@ groups:
           the instrumentation.
         examples:
           - 1234.5
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.metadata.time_to_first_token_ms
         type: double
@@ -37,3 +42,8 @@ groups:
           instrumentations that observe streamed responses.
         examples:
           - 187.3
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null

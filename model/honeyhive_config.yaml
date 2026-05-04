@@ -28,6 +28,11 @@ groups:
           - 'gpt-4o'
           - 'claude-3-5-sonnet-20241022'
           - 'gemini-1.5-pro'
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.request.model
+            openinference: gen_ai.request.model
+            traceloop: gen_ai.request.model
 
       - id: honeyhive.config.provider
         type: string
@@ -42,6 +47,12 @@ groups:
           - 'anthropic'
           - 'bedrock'
           - 'google'
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.provider.name
+            otel_genai_min_version: '1.37'
+            openinference: llm.provider
+            traceloop: llm.provider
 
       - id: honeyhive.config.template
         type: string
@@ -59,3 +70,8 @@ groups:
         examples:
           - '[{"role":"system","content":"You are an assistant. User name: {{user_name}}."}]'
           - '{"name":"customer_support_v2","version":"3","content":"..."}'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null

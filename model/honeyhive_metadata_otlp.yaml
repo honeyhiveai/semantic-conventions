@@ -26,6 +26,11 @@ groups:
           source OTLP span on every OTLP-ingested event.
         examples:
           - '4bf92f3577b34da6a3ce929d0e0e4736'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.metadata.span_id
         type: string
@@ -36,6 +41,11 @@ groups:
           source OTLP span on every OTLP-ingested event.
         examples:
           - '00f067aa0ba902b7'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.metadata.parent_span_id
         type: string
@@ -47,6 +57,11 @@ groups:
           `parent_id` field is resolved. Empty on root spans.
         examples:
           - '00f067aa0ba902b7'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.metadata.instrumentor
         type: string
@@ -62,6 +77,11 @@ groups:
           - 'aws-strands'
           - 'google-adk'
           - 'standardgenai'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.metadata.has_otlp_lineage
         type: boolean
@@ -73,6 +93,11 @@ groups:
           establishing parent-child relationships.
         examples:
           - true
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.metadata.honeyhive_event_type
         type: string
@@ -86,3 +111,8 @@ groups:
           - 'session'
           - 'model'
           - 'tool'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
