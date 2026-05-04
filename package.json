@@ -4,7 +4,7 @@
   "description": "HoneyHive semantic conventions reference",
   "type": "module",
   "scripts": {
-    "docs:build": "vitepress build docs-src",
+    "docs:build": "vitepress build docs-src && bash scripts/finalize-build.sh",
     "docs:serve": "vitepress serve docs"
   },
   "dependencies": {
