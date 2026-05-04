@@ -1,0 +1,32 @@
+# PLACEHOLDER — replaced by T13/T14/T16-T19 of ref-docs-stack-unification.
+groups:
+  - id: honeyhive.spans.session
+    type: span
+    brief: 'Placeholder span attributes for session tracking.'
+    stability: stable
+    span_kind: internal
+    attributes:
+      - id: honeyhive.session.id
+        type: string
+        stability: stable
+        requirement_level: required
+        brief: 'Placeholder.'
+        examples: ['sess-01HZQ...']
+      - id: honeyhive.session.name
+        type: string
+        stability: development
+        requirement_level: recommended
+        brief: 'Placeholder.'
+        examples: ['my-session']
+      - id: honeyhive.metrics.latency
+        type: double
+        stability: stable
+        requirement_level: recommended
+        brief: 'Placeholder.'
+        examples: [123.4]
+      - id: honeyhive.user.id
+        type: string
+        stability: stable
+        requirement_level: recommended
+        brief: 'Placeholder.'
+        examples: ['user-123']

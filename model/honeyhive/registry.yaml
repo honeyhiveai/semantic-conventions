@@ -1,0 +1,91 @@
+# PLACEHOLDER — replaced by T13/T14/T16-T19 of ref-docs-stack-unification.
+groups:
+  - id: registry.honeyhive.session
+    type: attribute_group
+    brief: 'Placeholder session attributes — will be replaced.'
+    attributes:
+      - id: honeyhive.session.id
+        type: string
+        stability: stable
+        brief: 'Placeholder.'
+        examples: ['sess-01HZQ...']
+      - id: honeyhive.session.name
+        type: string
+        stability: development
+        brief: 'Placeholder.'
+        examples: ['my-session']
+
+  - id: registry.honeyhive.metrics
+    type: attribute_group
+    brief: 'Placeholder metric attributes.'
+    attributes:
+      - id: honeyhive.metrics.cost
+        type: double
+        stability: stable
+        brief: 'Placeholder.'
+        examples: [0.0042]
+      - id: honeyhive.metrics.latency
+        type: double
+        stability: stable
+        brief: 'Placeholder.'
+        examples: [123.4]
+
+  - id: registry.honeyhive.request
+    type: attribute_group
+    brief: 'Placeholder request attributes.'
+    attributes:
+      - id: honeyhive.request.id
+        type: string
+        stability: stable
+        brief: 'Placeholder.'
+        examples: ['req-001']
+      - id: honeyhive.request.status
+        type: string
+        stability: development
+        brief: 'Placeholder.'
+        examples: ['success', 'error']
+
+  - id: registry.honeyhive.response
+    type: attribute_group
+    brief: 'Placeholder response attributes.'
+    attributes:
+      - id: honeyhive.response.code
+        type: int
+        stability: stable
+        brief: 'Placeholder.'
+        examples: [200, 500]
+      - id: honeyhive.response.time
+        type: double
+        stability: stable
+        brief: 'Placeholder.'
+        examples: [0.125]
+
+  - id: registry.honeyhive.error
+    type: attribute_group
+    brief: 'Placeholder error attributes.'
+    attributes:
+      - id: honeyhive.error.type
+        type: string
+        stability: stable
+        brief: 'Placeholder.'
+        examples: ['ValidationError', 'TimeoutError']
+      - id: honeyhive.error.message
+        type: string
+        stability: development
+        brief: 'Placeholder.'
+        examples: ['Invalid input']
+
+  - id: registry.honeyhive.user
+    type: attribute_group
+    brief: 'Placeholder user attributes.'
+    attributes:
+      - id: honeyhive.user.id
+        type: string
+        stability: stable
+        brief: 'Placeholder.'
+        examples: ['user-123']
+      - id: honeyhive.user.name
+        type: string
+        stability: development
+        brief: 'Placeholder.'
+        examples: ['Alice']
