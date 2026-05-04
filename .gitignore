@@ -1,2 +1,8 @@
 bin/
 dist/
+node_modules/
+docs/
+docs-src/registry/
+.vitepress/cache/
+.vitepress/dist/
+package-lock.json
