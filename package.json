@@ -1,24 +1,16 @@
 {
-  "name": "@honeyhive/semantic-conventions",
-  "version": "0.1.0",
-  "private": true,
+  "name": "honeyhive-semantic-conventions",
+  "version": "1.0.0",
+  "description": "HoneyHive semantic conventions reference",
   "type": "module",
-  "description": "HoneyHive Semantic Conventions — canonical attribute schema",
-  "homepage": "https://honeyhiveai.github.io/semantic-conventions/",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/honeyhiveai/semantic-conventions.git"
-  },
   "scripts": {
-    "generate:docs": "make fix && tsx scripts/postprocess-weaver.ts && pnpm docs:build",
-    "docs:dev": "vitepress dev docs-src",
     "docs:build": "vitepress build docs-src",
-    "docs:preview": "vitepress preview docs-src",
-    "clean": "rm -rf docs docs-src/registry"
+    "docs:serve": "vitepress serve docs"
+  },
+  "dependencies": {
+    "vitepress": "^1.0.0"
   },
   "devDependencies": {
-    "vitepress": "^1.6.4",
-    "tsx": "^4.19.0",
-    "typescript": "^5.5.0"
+    "typescript": "^5.0.0"
   }
 }
