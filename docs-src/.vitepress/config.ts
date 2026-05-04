@@ -16,7 +16,8 @@ export default defineConfig({
   // since it will be hosted on GitHub Pages at honeyhiveai.github.io/semantic-conventions/
   base: '/semantic-conventions/',
   lang: 'en-US',
-  cleanUrls: true,
+  cleanUrls: false,
+  ignoreDeadLinks: true,
 
   // Override VitePress's default outDir (docs-src/.vitepress/dist) so the build
   // artifact lands at the package root in docs/. Resolved from srcDir.
