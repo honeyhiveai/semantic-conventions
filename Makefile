@@ -34,6 +34,12 @@ install:
 $(WEAVER):
 	bash ./install.sh
 
+# `--future` enables the OTel post-v1.36 stability vocabulary:
+# stable / release_candidate / development / experimental (alias for
+# development) / mixed (synthesized only). It also rejects the legacy
+# `stability: deprecated` form — deprecation must use the orthogonal
+# `deprecated: { reason, renamed_to?, note? }` block on the attribute
+# (or group). See README.md → "Stability vocabulary" for the policy.
 check: $(WEAVER)
 	$(WEAVER) registry check --registry $(REGISTRY_DIR) --future
 
