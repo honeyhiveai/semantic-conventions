@@ -23,10 +23,10 @@ DIST         := dist
 DOCS_DIR     := docs
 PORT         := 8765
 
-.PHONY: install check build serve update-docs stats clean help
+.PHONY: install check build serve update-docs fix stats clean help
 
 help:
-	@echo "Targets: install | check | build | serve | update-docs | stats | clean"
+	@echo "Targets: install | check | build | serve | update-docs | fix | stats | clean"
 
 install:
 	bash ./install.sh
@@ -79,3 +79,24 @@ stats: $(WEAVER)
 
 clean:
 	rm -rf $(DIST)
+
+# Generate registry markdown to docs-src/ and build HTML with VitePress
+fix: $(WEAVER) check
+	mkdir -p docs-src/registry
+	$(WEAVER) registry generate \
+		--registry $(REGISTRY_DIR) \
+		--templates $(TEMPLATES) \
+		markdown \
+		docs-src/registry
+	@echo "generated registry to docs-src/registry/"
+	@if [ -f pnpm-lock.yaml ] || [ -f node_modules/.pnpm-lock ]; then \
+		echo "installing pnpm dependencies..."; \
+		pnpm install --frozen-lockfile 2>/dev/null || pnpm install; \
+	else \
+		echo "installing pnpm dependencies..."; \
+		npm install -g pnpm 2>/dev/null || true; \
+		pnpm install; \
+	fi
+	@echo "building documentation with VitePress..."
+	pnpm run docs:build
+	@echo "✓ Site built at docs/"

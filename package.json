@@ -1,0 +1,16 @@
+{
+  "name": "honeyhive-semantic-conventions",
+  "version": "1.0.0",
+  "description": "HoneyHive semantic conventions reference",
+  "type": "module",
+  "scripts": {
+    "docs:build": "vitepress build docs-src",
+    "docs:serve": "vitepress serve docs"
+  },
+  "dependencies": {
+    "vitepress": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
