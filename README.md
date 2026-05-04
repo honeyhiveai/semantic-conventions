@@ -5,7 +5,9 @@ ingestion pipeline accepts. This repo is the single source of truth
 for:
 
 - the wire-format attribute names emitted by HoneyHive SDKs / OTLP
-- the stability tier (stable vs development) of every attribute
+- the stability tier (`stable` / `release_candidate` / `development`)
+  of every attribute, plus an orthogonal `deprecated:` block on
+  individual attributes when retired
 - the public documentation site at
   `https://honeyhiveai.github.io/semantic-conventions/` (deploys on
   push to `main` once HHAI-5108 lands the Pages workflow)
@@ -63,8 +65,7 @@ structure). Create one locally to test snippet injection.
      and any `bucket.` segment (e.g. `honeyhive.metadata.cost`).
    - `type` — `string`, `int`, `double`, `boolean`, `string[]`, or an
      inline enum (`members:`).
-   - `stability` — `stable` or `development`. Match the tier locked
-     in honeyhive-ai-docs (PR #273).
+   - `stability` — see "Stability vocabulary" below.
    - `brief` — one sentence describing what the attribute represents.
 3. Run `make check`. It MUST exit 0.
 4. Run `make build` and open `dist/attributes/honeyhive.md` —
@@ -72,6 +73,53 @@ structure). Create one locally to test snippet injection.
    and examples.
 5. Open a PR. CI (HHAI-5104) will re-run `make check` on every push.
    On merge, the deploy workflow (HHAI-5108) republishes the site.
+
+## Stability vocabulary
+
+The registry uses the OpenTelemetry stability vocabulary. Pick exactly
+one of:
+
+| Value | Meaning |
+|---|---|
+| `stable` | Load-bearing. Breaking changes go through a documented migration. Safe to reference in evaluator configuration, dashboards, saved filters, and SDK code. |
+| `release_candidate` | Feature-complete, in production use, ironing out edge cases. May still receive minor backwards-compatible adjustments before promotion to `stable`. Renders as an "rc" badge. |
+| `development` | Actively designed. Expect breakage; do not bake into long-lived integrations. |
+| `experimental` | Alias for `development`, kept for OTel-vocabulary migration tolerance. Prefer `development` for new attributes. |
+| `mixed` | **Do not author manually.** Synthesized by the renderer when child attributes of a group disagree. |
+
+`weaver registry check --future` (which `make check` runs) rejects the
+legacy `stability: deprecated` form. Use the orthogonal `deprecated:`
+block instead — see below.
+
+## Deprecating an attribute
+
+Deprecation is orthogonal to stability: an attribute's `stability:`
+keeps documenting how stable the attribute was *while it existed*, and
+a sibling `deprecated:` block records that it's retiring. Apply the
+block at the attribute level (or, for a whole group, at the group
+level):
+
+```yaml
+- id: honeyhive.gen_ai.response.usage_cost
+  type: double
+  stability: stable
+  deprecated:
+    reason: renamed
+    renamed_to: honeyhive.gen_ai.response.cost
+    note: Removal scheduled for v2.0 — emitters should switch to the new name.
+  brief: Aggregate cost in USD attributed to the response.
+```
+
+Recognized fields inside `deprecated:`:
+
+- `reason` (required) — short tag: `renamed`, `obsoleted`, `uncategorized`.
+- `renamed_to` (optional) — the attribute that replaces this one.
+- `note` (optional) — free-form context (timeline, migration guidance).
+
+The renderer emits a red **Deprecated** badge with the note inline
+whenever a `deprecated:` block is present, regardless of the
+`stability:` value. **Never combine the legacy `stability: deprecated`
+with the new orthogonal block** — pick the block.
 
 ## Layout
 
