@@ -30,6 +30,11 @@ groups:
           - 'length'
           - 'tool_calls'
           - 'content_filter'
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.response.finish_reasons
+            openinference: gen_ai.response.finish_reason
+            traceloop: gen_ai.response.finish_reasons
 
       - id: honeyhive.metadata.finish_reasons
         type: string[]
@@ -42,6 +47,11 @@ groups:
         examples:
           - ['stop']
           - ['stop', 'tool_calls']
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.response.finish_reasons
+            openinference: gen_ai.response.finish_reasons
+            traceloop: gen_ai.response.finish_reasons
 
       - id: honeyhive.metadata.response_finish_reasons
         type: string[]

@@ -28,6 +28,11 @@ groups:
           `session_id` field that drives session grouping.
         examples:
           - 'a1b2c3d4-5e6f-7890-abcd-ef0123456789'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: session.id
+            traceloop: null
 
       - id: honeyhive.metadata.user_id
         type: string
@@ -38,6 +43,11 @@ groups:
           attribute. Used for per-user filtering and aggregation.
         examples:
           - 'user_8f3c1d29'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: user.id
+            traceloop: null
 
       - id: honeyhive.metadata.run_id
         type: string
@@ -48,6 +58,11 @@ groups:
           event is part of an offline experiment / dataset evaluation.
         examples:
           - 'run_2025_q1_eval_42'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.metadata.dataset_id
         type: string
@@ -58,6 +73,11 @@ groups:
           part of a dataset evaluation.
         examples:
           - 'EXT-2630e2cde725c322d01fee0a'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.metadata.datapoint_id
         type: string
@@ -68,6 +88,11 @@ groups:
           part of a dataset evaluation.
         examples:
           - 'EXT-5578323c51630e91e001027c'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.metadata.tool_call_id
         type: string
@@ -80,3 +105,8 @@ groups:
           OpenInference, and Traceloop.
         examples:
           - 'call_abc123'
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.tool.call.id
+            openinference: gen_ai.tool.call.id
+            traceloop: gen_ai.tool.call.id

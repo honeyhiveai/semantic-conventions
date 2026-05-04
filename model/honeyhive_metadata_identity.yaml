@@ -30,6 +30,11 @@ groups:
         examples:
           - 'planning_agent'
           - 'router'
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.agent.name
+            openinference: gen_ai.agent.name
+            traceloop: gen_ai.agent.name
 
       - id: honeyhive.metadata.agent_description
         type: string
@@ -54,6 +59,11 @@ groups:
           OpenInference, and Traceloop.
         examples:
           - 'agent-7c1f9d34'
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.agent.id
+            openinference: gen_ai.agent.id
+            traceloop: gen_ai.agent.id
 
       - id: honeyhive.metadata.tool_name
         type: string
@@ -66,6 +76,11 @@ groups:
         examples:
           - 'web_search'
           - 'sql_query_tool'
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.tool.name
+            openinference: gen_ai.tool.name
+            traceloop: gen_ai.tool.name
 
       - id: honeyhive.metadata.model_name
         type: string
@@ -79,6 +94,11 @@ groups:
         examples:
           - 'gpt-4o-2024-08-06'
           - 'claude-3-5-sonnet-20241022'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: llm.model_name
+            traceloop: llm.model_name
 
       - id: honeyhive.metadata.llm.model_name
         type: string
@@ -114,6 +134,12 @@ groups:
         examples:
           - 'openai'
           - 'anthropic'
+        annotations:
+          source_mapping:
+            otel_genai: gen_ai.provider.name
+            otel_genai_min_version: '1.37'
+            openinference: llm.provider
+            traceloop: llm.provider
 
       - id: honeyhive.metadata.system
         type: string

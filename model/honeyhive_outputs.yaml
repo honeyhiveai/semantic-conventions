@@ -28,6 +28,11 @@ groups:
         examples:
           - 'assistant'
           - 'tool'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.outputs.chat_history
         type: string
@@ -41,6 +46,11 @@ groups:
           `inputs.chat_history`.
         examples:
           - '[{"role":"assistant","content":"The answer is 42."}]'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.outputs.tool_calls
         type: string
@@ -55,6 +65,11 @@ groups:
           when transported via OTLP.
         examples:
           - '[{"id":"call_abc","function":{"name":"get_weather","arguments":"{\"city\":\"SF\"}"}}]'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.outputs.text
         type: string
@@ -66,3 +81,8 @@ groups:
           standard markdown/JSON toggle view.
         examples:
           - 'The weather in San Francisco is 68F and sunny.'
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null

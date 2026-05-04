@@ -27,6 +27,11 @@ groups:
           normalizer on session events.
         examples:
           - 12
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.metadata.num_model_events
         type: int
@@ -38,6 +43,11 @@ groups:
           table. Initialized to 0 by the normalizer on session events.
         examples:
           - 4
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.metadata.has_feedback
         type: boolean
@@ -49,6 +59,11 @@ groups:
         examples:
           - true
           - false
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
 
       - id: honeyhive.metadata.cost
         type: double
@@ -62,3 +77,8 @@ groups:
         examples:
           - 0.0123
           - 1.4521
+        annotations:
+          source_mapping:
+            otel_genai: null
+            openinference: null
+            traceloop: null
