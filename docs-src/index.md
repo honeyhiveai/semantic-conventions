@@ -1,8 +1,23 @@
-# HoneyHive Semantic Conventions
+---
+layout: home
 
-Canonical attribute schema for HoneyHive's AI observability platform.
+hero:
+  name: HoneyHive Semantic Conventions
+  text: Canonical Observability Schema
+  tagline: Unified attribute definitions for AI observability across the HoneyHive platform.
+  actions:
+    - theme: brand
+      text: Get Started
+      link: /getting-started
+    - theme: alt
+      text: View Registry
+      link: /registry/
 
-- **[Registry](/registry/)** — Complete attribute reference
-- **[POLICY](../POLICY.md)** — Stability and naming conventions
-
-Built with [weaver](https://github.com/open-telemetry/weaver) and [VitePress](https://vitepress.dev).
+features:
+  - title: Unified Schema
+    details: Single source of truth for observability attributes across all HoneyHive components and SDKs.
+  - title: OpenTelemetry Compatible
+    details: Designed to interoperate seamlessly with OpenTelemetry standards while adding AI-specific context.
+  - title: Versioned & Stable
+    details: Semantic versioning ensures backward compatibility while enabling evolution of the schema.
+---
